@@ -4,23 +4,27 @@
 #include "mapping.h"
 
 
-//weight : The current weight the Truck is carrying
-//volume : The space currently taken up within the truck
-//truckId: A string to uniquely identify a Truck
+/*
+* weight    : The current weight the Truck is carrying
+* volume    : The space currently taken up within the truck
+* truckRoute: The set route the truck follows 
+* packages[]: The max amount of Shipments a Truck can hold (assuming weight is not the limiting factor)
+*/
 struct Truck {
 	int weight;
 	float volume;
-	char truckId[10];
+	Route truckRoute;
+	Shipment packages[500];
 };
 
-//weight : The weight of the package
-//size   : The size of the package in cubic meters
-//truckId: A string corresponding to a trucks unique identifier for assignment
-//address: A point on the map representing the address to be deliverd to
+/*
+* weight: The weight of the package
+* size   : The size of the package in cubic meters
+* address: A point on the map representing the address to be deliverd to
+*/
 struct Shipment {
 	int weight;
 	float size;
-	char truckId[10];
 	Point address;
 };
 
