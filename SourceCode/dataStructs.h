@@ -24,4 +24,41 @@ struct Shipment {
 	Point address;
 };
 
+
+/*
+* Calculates the distance from point a, to point b in double format
+* @param Point 1, Point2 - The two points which store their locations in them to compare
+* @returns The distance in double format
+*/
+double checkDistance(Point point1, Point point2);
+
+/*
+* Calculates if given a shipment, a truck can accept it or not
+* @param Shipment to be delivered, Truck to be checked
+* @returns true or false if acceptable
+*/
+bool checkSpace(Truck truck, Shipment shipment);
+
+
+/*
+* Calculates if given a shipment is valid
+* @param Shipment to be delivered
+* @returns true or false if acceptable
+*/
+bool valid(Shipment shipment);
+
+/*
+* Calculates which truck a shipment should follow, and if a diversion should be made or if a package cannot be shipped
+* @param Map, Array of trucks, the given shipment
+* @returns true or false if acceptable
+*/
+int assignPackage(Map map, Truck trucks[], Shipment shipment);
+
+
+/*
+* Calculates the least distance to divert from a given package and prints the diversion
+* @param Map, Array of trucks, the given shipment
+* @returns nothing, only prints a diversion
+*/
+void divert(Map map, Truck trucks[], Shipment shipment);
 #endif
