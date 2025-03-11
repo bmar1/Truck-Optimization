@@ -26,13 +26,6 @@ struct Shipment {
 
 
 /*
-* Calculates the distance from point a, to point b in double format
-* @param Point 1, Point2 - The two points which store their locations in them to compare
-* @returns The distance in double format
-*/
-double checkDistance(Point point1, Point point2);
-
-/*
 * Calculates if given a shipment, a truck can accept it or not
 * @param Shipment to be delivered, Truck to be checked
 * @returns true or false if acceptable
