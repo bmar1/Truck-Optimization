@@ -2,6 +2,7 @@
 #ifndef MAPPING_H
 #define MAPPING_H
 
+
 #define MAP_ROWS 25
 #define MAP_COLS 25
 #define MAX_ROUTE 100

@@ -4,7 +4,9 @@
 
 extern "C"
 {
-	#include <mapping.h>
+	#include "mapping.h"
+	#include "dataStructs.h"
+
 }
 
 #endif

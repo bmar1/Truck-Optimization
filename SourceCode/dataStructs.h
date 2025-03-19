@@ -3,7 +3,9 @@
 #define DATASTRUCTS_H
 #include "mapping.h"
 
-
+#ifdef __cplusplus
+extern "C" {  
+#endif
 /*
 * weight: The weight of the package
 * size   : The size of the package in cubic meters
@@ -56,4 +58,8 @@ int assignPackage(struct Map map, struct Truck trucks[], struct Shipment shipmen
 * @returns nothing, only prints a diversion
 */
 void divert(struct Map map, struct Truck trucks[], struct Shipment shipment);
+#ifdef __cplusplus
+}  
+#endif
+
 #endif
