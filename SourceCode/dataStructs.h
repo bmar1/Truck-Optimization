@@ -3,6 +3,7 @@
 #define DATASTRUCTS_H
 #include "mapping.h"
 
+
 #ifdef __cplusplus
 extern "C" {  
 #endif
@@ -13,7 +14,7 @@ extern "C" {
 */
 struct Shipment {
 	int weight;
-	float size;
+	double size;
 	struct Point address;
 };
 
@@ -25,8 +26,8 @@ struct Shipment {
 */
 struct Truck {
 	int weight;
-	float volume;
-	struct Route truckRoute;
+	double volume;
+	const struct Route truckRoute;
 	struct Shipment packages[500];
 };
 
@@ -47,7 +48,7 @@ bool valid(struct Shipment shipment, struct Map map);
 /*
 * Calculates which truck a shipment should follow, and if a diversion should be made or if a package cannot be shipped
 * @param Map, Array of trucks, the given shipment
-* @returns true or false if acceptable
+* @returns index of trck which the package is assinged to or -1 if unable/errror
 */
 int assignPackage(struct Map map, struct Truck trucks[], struct Shipment shipment);
 
@@ -55,9 +56,17 @@ int assignPackage(struct Map map, struct Truck trucks[], struct Shipment shipmen
 /*
 * Calculates the least distance to divert from a given package and prints the diversion
 * @param Map, Array of trucks, the given shipment
-* @returns nothing, only prints a diversion
+* @returns index of trck which the package is assinged to or -1 if unable/errror 
 */
-void divert(struct Map map, struct Truck trucks[], struct Shipment shipment);
+int divert(struct Map map, struct Truck trucks[], struct Shipment shipment, int index);
+
+/**
+ * Finds the next available slot in the packages array.
+ * @param packages - the array of packages in the truck
+ * @param maxPackages - the maximum number of packages the truck can hold
+ * @returns the index of the first empty slot, or -1 if no slot is available
+ */
+int findNextAvailableSlot(const struct Shipment packages[], int maxPackages);
 #ifdef __cplusplus
 }  
 #endif
