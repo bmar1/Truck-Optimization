@@ -213,12 +213,12 @@ namespace BlackBoxTests
         {
 
             struct Truck trucks[] = {
-                {100, 80, green, {}},
-                {200, 40, yellow, {}}
+                {1000, 80, green, {}},
+                {2000, 40, yellow, {}}
 
             };
             struct Point address { 'Q', '2' };
-            struct Shipment shipment { 500, 1, address };
+            struct Shipment shipment { 500, 5, address };
 
             int result = divert(finalMap, trucks, shipment, 0);
             Assert::AreEqual(0, result);
@@ -296,7 +296,18 @@ namespace BlackBoxTests
 
         }
 
+        //Added an extra test - Kaitlyn
         TEST_METHOD(test_eqPt4)
+        {
+            const struct Point p1 = { 8, 16 };
+            const struct  Point p2 = { 7, 14 };
+            int result = eqPt(p1, p2);
+
+            Assert::AreEqual(0, result);
+
+        }
+
+        TEST_METHOD(test_eqPt5)
         {
             const struct Point p1 = { 0, 0 };
             const struct Point p2 = { 24, 24 };
