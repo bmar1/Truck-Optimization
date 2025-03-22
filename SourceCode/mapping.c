@@ -271,7 +271,7 @@ int eqPt(const struct Point p1, const struct Point p2)
 	return p1.row == p2.row && p1.col == p2.col;
 }
 
-int getClosestPoint(const struct Route* route, const struct Point pt)
+int getClosestPoint(const struct Route* route, struct Point pt)
 {
 	int i, closestIdx = -1;
 	double closestDist = 999999.99, dist;

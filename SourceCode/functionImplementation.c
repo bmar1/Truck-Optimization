@@ -158,6 +158,7 @@ int assignPackage(const struct Map map, struct Truck trucks[], struct Shipment s
 
 int divert(struct Map map, struct Truck trucks[], struct Shipment shipment, int index) {
 
+	if(!valid(shipment, map)) return -1;
 	int closestIndex = getClosestPoint((const struct Route*)&trucks[index].truckRoute, shipment.address);
 
 	// get the closet point on the given truck route
