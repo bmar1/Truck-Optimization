@@ -16,38 +16,10 @@ namespace BlackBoxTests
     const struct Map map2 = addRoute(&map1, &green);
     const struct Map finalMap = addRoute(&map2, &yellow);
 
-    //dadosadoadopa
-
 
     TEST_CLASS(BlackBoxTests) {
     public:
-        /* FIX THESE TESTS TO HAVE ASSERTIONS!
-        TEST_METHOD(test_printMap_case1)
-         {
-             int base1 = 1;
-             int alphaCols = 1;
-             printMap(&finalMap, base1, alphaCols);
-         }
-         TEST_METHOD(test_printMap_case2)
-         {
-             int base1 = 8;
-             int alphaCols = 0;
-             printMap(&finalMap, base1, alphaCols);
-         }
-         TEST_METHOD(test_printMap_case3)
-         {
-             int base1 = 20;
-             int alphaCols = 1;
-             printMap(&finalMap, base1, alphaCols);
-         }
-         TEST_METHOD(test_printMap_case4)
-         {
-             int base1 = 0;
-             int alphaCols = 1;
-             printMap(&finalMap, base1, alphaCols);
-         }
-         */
-
+    
 
         TEST_METHOD(test_distance_case1)
         {
@@ -236,7 +208,103 @@ namespace BlackBoxTests
         };
 
 
+      /*  To be retested//values tweaked.
+      TEST_METHOD(test_check_divert1)
+        {
 
+            struct Truck trucks[] = {
+                {100, 80, green, {}},
+                {200, 40, yellow, {}}
+
+            };
+            struct Point address { 'Q', '2' };
+            struct Shipment shipment { 500, 1, address };
+
+            int result = divert(finalMap, trucks, shipment, 0);
+            Assert::AreEqual(0, result);
+        }
+
+        TEST_METHOD(test_check_divert2)
+        {
+
+            struct Truck trucks[] = {
+                {1000, 80, yellow, {}},
+
+            };
+            struct Point address { 'C', '8' };
+            struct Shipment shipment { 1000, 2, address };
+
+            int result = divert(finalMap, trucks, shipment, 0);
+            Assert::AreEqual(0, result);
+        }
+
+        TEST_METHOD(test_check_divert3)
+        {
+
+            struct Truck trucks[] = {
+                {1000, 80, yellow, {}},
+
+            };
+            struct Point address { 'C', '8' };
+            struct Shipment shipment { 3000, 2, address };
+
+            int result = divert(finalMap, trucks, shipment, 0);
+            Assert::AreEqual(-1, result);
+        }
+
+        TEST_METHOD(test_check_divert4)
+        {
+
+            struct Truck trucks[] = {
+                {1000, 80, blueRoute, {}},
+
+            };
+            struct Point address { 'X', '28' };
+            struct Shipment shipment { 1000, 2, address };
+
+            int result = divert(finalMap, trucks, shipment, 0);
+            Assert::AreEqual(-1, result);
+        */
+
+        TEST_METHOD(test_eqPt)
+        {
+            const struct Point p1 = { 9, 13 };
+            const struct Point p2 = { 9, 13 };
+            int result = eqPt(p1, p2);
+
+            Assert::AreEqual(1, result);
+
+        }
+
+        TEST_METHOD(test_eqPt2)
+        {
+            const struct Point p1 = { 2, 10 };
+            const struct Point p2 = { 5, 10 };
+            int result = eqPt(p1, p2);
+
+            Assert::AreEqual(0, result);
+
+        }
+
+        TEST_METHOD(test_eqPt3)
+        {
+            const struct Point p1 = { 3, 11 };
+            const struct  Point p2 = { 3, 20 };
+            int result = eqPt(p1, p2);
+
+            Assert::AreEqual(0, result);
+
+        }
+
+        TEST_METHOD(test_eqPt4)
+        {
+            const struct Point p1 = { 0, 0 };
+            const struct Point p2 = { 24, 24 };
+            int result = eqPt(p1, p2);
+
+            Assert::AreEqual(0, result);
+
+        }
 
     };
 }
