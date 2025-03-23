@@ -66,23 +66,23 @@ namespace BlackBoxTests
                 {100, 10.0, yellow, {}}
             };
 
-            struct Point address { 'H', '7' };
+            struct Point address { 7, 'H' };
             struct Shipment shipment { 250, 5, address };
 
             int result = assignPackage(finalMap, trucks, shipment);
-            Assert::AreEqual(result, 1);
+            Assert::AreEqual(result, 0);
         };
 
         TEST_METHOD(test_assign_case2)
         {
 
             struct Truck trucks[] = {
-                {2500, 50.0, green, {}},
-                {2500, 50.0, blueRoute, {}},
-                {2500, 50.0, yellow, {}}
+                {5000, 50.0, green, {}},
+                {5000, 50.0, blueRoute, {}},
+                {5000, 50.0, yellow, {}}
             };
 
-            struct Point address { 'K', '2' };
+            struct Point address { 2, 'K' };
             struct Shipment shipment { 250, 5, address };
 
             int result = assignPackage(map, trucks, shipment);
@@ -99,7 +99,7 @@ namespace BlackBoxTests
                 {90, 50.00, yellow, {}}
             };
 
-            struct Point address { 'X', '1' };
+            struct Point address { 1, 'X' };
             struct Shipment shipment { -1, 5, address };
 
             int result = assignPackage(finalMap, trucks, shipment);
@@ -115,16 +115,16 @@ namespace BlackBoxTests
                 {100, 50.00, yellow, {}}
             };
 
-            struct Point address { 'V', '3' };
+            struct Point address { 3, 'V' };
             struct Shipment shipment { 500, 5, address };
 
             int result = assignPackage(finalMap, trucks, shipment);
-            Assert::AreEqual(result, 0);
+            Assert::AreEqual(result, -1);
         };
 
         TEST_METHOD(test_valid_case1)
         {
-            struct Point address { 'H', '7' };
+            struct Point address { 7, 'H' };
             struct Shipment shipment { 20, 2, address };
 
             bool result = valid(shipment, finalMap);
@@ -134,7 +134,7 @@ namespace BlackBoxTests
 
         TEST_METHOD(test_valid_case2)
         {
-            struct Point address { 'B', '2' };
+            struct Point address { 2, 'B' };
             struct Shipment shipment { 2000, 5, address };
 
             bool result = valid(shipment, finalMap);
@@ -145,7 +145,7 @@ namespace BlackBoxTests
 
         TEST_METHOD(test_valid_case3)
         {
-            struct Point address { 'H', '9' };
+            struct Point address { 9, 'H' };
             struct Shipment shipment { -1, 5, address };
 
             bool result = valid(shipment, finalMap);
@@ -155,7 +155,7 @@ namespace BlackBoxTests
 
         TEST_METHOD(test_valid_case4)
         {
-            struct Point address { 'H', '4' };
+            struct Point address { 4, 'H' };
             struct Shipment shipment { INT_MAX, 2, address };
 
             bool result = valid(shipment, finalMap);
@@ -166,7 +166,7 @@ namespace BlackBoxTests
         {
             struct Truck truck = { 2000, 50.00, blueRoute, {} };
 
-            struct Point address { 'H', '4' };
+            struct Point address { 4, 'H' };
             struct Shipment shipment { 20, 2, address };
 
             bool result = checkSpace(truck, shipment);
@@ -178,7 +178,7 @@ namespace BlackBoxTests
         {
             struct Truck truck = { 5000, 250.00, blueRoute, {} };
 
-            struct Point address { 'H', '2' };
+            struct Point address { 2, 'H' };
             struct Shipment shipment { 4000, 7, address };
 
             bool result = checkSpace(truck, shipment);
@@ -189,7 +189,7 @@ namespace BlackBoxTests
         TEST_METHOD(test_space_case3)
         {
             struct Truck truck = { 5000, 250.00, blueRoute, {} };
-            struct Point address { 'H', '4' };
+            struct Point address { 4, 'H' };
             struct Shipment shipment { -1, 5, address };
 
             bool result = checkSpace(truck, shipment);
@@ -200,7 +200,7 @@ namespace BlackBoxTests
         TEST_METHOD(test_space_case4)
         {
             struct Truck truck = { 10, 250.00, blueRoute, {} };
-            struct Point address { 'K', '8' };
+            struct Point address { 8, 'K' };
             struct Shipment shipment { 3000, 2, address };
 
             bool result = checkSpace(truck, shipment);
@@ -320,8 +320,194 @@ namespace BlackBoxTests
     };
 }
 
-int main() {
+namespace WhiteBoxTests{
+    //Test Series 1
+    const struct Map map = populateMap();
+
+    struct Route blueRoute = getBlueRoute();
+    struct Route yellow = getYellowRoute();
+    struct Route green = getGreenRoute();
+
+    const struct Map map1 = addRoute(&map, &blueRoute);
+    const struct Map map2 = addRoute(&map1, &green);
+    const struct Map finalMap = addRoute(&map2, &yellow); 
+
+
+    TEST_CLASS(WhiteBoxTests) {
+    public:
+        TEST_METHOD(test_checkSpace1)
+        {
+            Truck testTruck = { 4000, 200, {0}, {0} };
+            Shipment testPackage = { 500, 40, {0,0} };
+
+            bool result = checkSpace(testTruck, testPackage);
+            Assert::AreEqual(result, true);
+        }
+        TEST_METHOD(test_checkSpace2)
+        {
+            Truck testTruck = { 4900, 100, {0}, {0} };
+            Shipment testPackage = { 200, 10, {0,0} };
+
+            bool result = checkSpace(testTruck, testPackage);
+            Assert::AreEqual(result, false);
+        }
+        TEST_METHOD(test_checkSpace3) 
+        {
+            Truck testTruck = { 4500, 245, {0}, {0} };
+            Shipment testPackage = { 500, 5, {0,0} };
+
+            bool result = checkSpace(testTruck, testPackage);
+            Assert::AreEqual(result, true);
+        }
+        TEST_METHOD(test_checkSpace4) 
+        {
+            Truck testTruck = { 3000, 245, {0}, {0} };
+            Shipment testPackage = { 300, 20, {0,0} };
+
+            bool result = checkSpace(testTruck, testPackage);
+            Assert::AreEqual(result, false);
+        }
+        TEST_METHOD(test_valid1) {
+
+            Shipment testPackage = { 1, 0.5, {1, 'B'} };
+
+            bool result = valid(testPackage, map);
+            Assert::AreEqual(result, true);
+
+        }
+        TEST_METHOD(test_valid2) {
+
+            Shipment testPackage = { 5001, 2, {2, 'B'} };
+
+            bool result = valid(testPackage, map);
+            Assert::AreEqual(result, false);
+
+        }
+        TEST_METHOD(test_valid3) {
+
+            Shipment testPackage = { 10, 2, {0, 'G'} };
+
+            bool result = valid(testPackage, map);
+            Assert::AreEqual(result, false);
+
+        }
+        TEST_METHOD(test_valid4) {
+
+            Shipment testPackage = { 20, 2, {26, 'A'} };
+
+            bool result = valid(testPackage, map);
+            Assert::AreEqual(result, false);
+
+        }
+        TEST_METHOD(test_assign1) {
+
+            struct Truck trucks[] = {
+                {2000, 80.0, green, {}},
+                {1500, 90.0, blueRoute, {}},
+                {0, 0.0, yellow, {}}
+            };
+
+            struct Point address { 7, 'F' };
+            struct Shipment shipment { 500, 5, address };
+
+            int result = assignPackage(finalMap, trucks, shipment);
+            Assert::AreEqual(result, 0); 
+        }
+        TEST_METHOD(test_assign2) {
+            struct Truck trucks[] = {
+                {5000, 250.0,blueRoute , {}},
+                {1500, 90.0, green, {}}
+            };
+
+            struct Point address { 7, 'F' };
+            struct Shipment shipment { 500, 5, address };
+
+            int result = assignPackage(finalMap, trucks, shipment);
+            Assert::AreEqual(result, 1);
+        }
+        TEST_METHOD(test_assign3) {
+            struct Truck trucks[] = {
+                {2000, 80.0,blueRoute , {}},
+                {1500, 90.0, green, {}}
+            };
+
+            struct Point address { 7, 'F' };
+            struct Shipment shipment { 500, 5, address };
+
+            int result = assignPackage(finalMap, trucks, shipment);
+            Assert::AreEqual(result, 1);
+        }
+        TEST_METHOD(test_assign4) {
+            struct Truck trucks[] = {
+                {5000, 250.0,blueRoute , {}},
+                {5000, 250.0, green, {}}
+            };
+
+            struct Point address { 7, 'F' };
+            struct Shipment shipment { 500, 5, address };
+
+            int result = assignPackage(finalMap, trucks, shipment);
+            Assert::AreEqual(result, -1);
+        }
+        TEST_METHOD(test_max1) {
+            struct Truck trucks[] = {
+                {4500, 245.0, green, {}},
+                {0, 0.0,blueRoute, {}},
+                {0, 0.0, yellow, {}}
+            };
+
+            struct Point address { 7, 'F' };
+            struct Shipment shipment { 500, 5, address };
+
+            int result = assignPackage(finalMap, trucks, shipment);
+            Assert::AreEqual(result, 0);
+        }
+        TEST_METHOD(test_max2) {
+            struct Truck trucks[] = {
+                {4900, 245.0, green, {}},
+                {4900, 245.0,blueRoute, {}},
+                {4900, 245.0, yellow, {}}
+            };
+
+            struct Point address { 7, 'F' };
+            struct Shipment shipment { 500, 5, address };
+
+            int result = assignPackage(finalMap, trucks, shipment);
+            Assert::AreEqual(result, -1);
+        }
+        TEST_METHOD(test_max3) {
+            struct Truck trucks[] = {
+                {4500, 247.0, green, {}},
+                {4500, 247.0,blueRoute, {}},
+                {4500, 247.0, yellow, {}}
+            };
+
+            struct Point address { 7, 'F' };
+            struct Shipment shipment { 500, 5, address };
+
+            int result = assignPackage(finalMap, trucks, shipment);
+            Assert::AreEqual(result, -1);
+        }
+        TEST_METHOD(test_max4) {
+            struct Truck trucks[] = {
+                {5000, 250.0, green, {}},
+                {1500, 90.0,blueRoute, {}},
+                {0, 0.0, yellow, {}}
+            };
+
+            struct Point address { 7, 'F' };
+            struct Shipment shipment { 500, 5, address };
+
+            int result = assignPackage(finalMap, trucks, shipment);
+            Assert::AreEqual(result, 1);
+        }
+
+    };
+
+}
+
+/*int main() {
     return 0;
 
 
-}
+}*/
