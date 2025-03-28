@@ -15,6 +15,20 @@ bool checkSpace(struct Truck truck, struct Shipment shipment) {
 	}
 }
 
+bool validShip(struct Shipment shipment){
+	bool validity;
+
+	if (shipment.weight <= 0 || shipment.weight > 5000) {//Set validity to false if incorrect weight
+		validity = false;
+	}
+	else if (shipment.size != 0.5 && shipment.size != 2 && shipment.size != 5) {//Set validity to false if incorrect size
+		validity = false;
+	}
+	else validity = true;
+
+	return validity;
+}
+
 bool valid(struct Shipment shipment, struct Map map) {
 	bool validity;
 	int row, column;
@@ -79,12 +93,6 @@ bool valid(struct Shipment shipment, struct Map map) {
 	default: column = -1;
 	}
 
-	if (shipment.weight <= 0 || shipment.weight > 5000) {//Set validity to false if incorrect weight
-		validity = false;
-	}
-	else if (shipment.size != 0.5 && shipment.size != 2 && shipment.size != 5) {//Set validity to false if incorrect size
-		validity = false;
-	}
 	else if (row == -1 || column == -1) {//Set validity to false if address is outside of map bounds
 		validity = false;
 	}
@@ -103,7 +111,7 @@ int assignPackage(const struct Map map, struct Truck trucks[], struct Shipment s
 	int index = -2;
 	double minDistance = DBL_MAX;
 	// If at least one truck has room and the shipment is valid, assign it
-	if (!valid(shipment, map))
+	if (!valid(shipment, map) || !validShip(shipment))
 		return -1;
 		
 		//loop through all trucks to find the one with the closest distance to the package
@@ -158,7 +166,7 @@ int assignPackage(const struct Map map, struct Truck trucks[], struct Shipment s
 
 int divert(struct Map map, struct Truck trucks[], struct Shipment shipment, int index) {
 
-	if(!valid(shipment, map)) return -1;
+	if(!valid(shipment, map) || !validShip(shipment)) return -1;
 	int closestIndex = getClosestPoint((const struct Route*)&trucks[index].truckRoute, shipment.address);
 
 	// get the closet point on the given truck route

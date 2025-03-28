@@ -38,8 +38,16 @@ struct Truck {
 */
 bool checkSpace(struct Truck truck, struct Shipment shipment); 
 
+
 /*
-* Calculates if given a shipment is valid
+* Calculates if given a shipment is valid (within the bounds of weight/size)
+* @param Shipment to be delivered
+* @returns true or false if acceptable
+*/
+bool validShip(struct Shipment shipment);
+
+/*
+* Calculates if given a shipment is valid on the map
 * @param Shipment to be delivered
 * @returns true or false if acceptable
 */
