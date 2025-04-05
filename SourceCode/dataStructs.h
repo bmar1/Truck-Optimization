@@ -32,6 +32,13 @@ struct Truck {
 };
 
 /*
+* A function that takes input from a user for the parameters of a shipment 
+* returns false if the user inputs 0 0 x
+* otherwise returns true
+*/
+bool takeUserInput(struct Shipment* package);
+
+/*
 * Calculates if given a shipment, a truck can accept it or not
 * @param Shipment to be delivered, Truck to be checked
 * @returns true or false if acceptable
@@ -66,7 +73,7 @@ int assignPackage(struct Map map, struct Truck trucks[], struct Shipment shipmen
 * @param Map, Array of trucks, the given shipment
 * @returns index of trck which the package is assinged to or -1 if unable/errror 
 */
-int divert(struct Map map, struct Truck trucks[], struct Shipment shipment, int index);
+struct Route divert(struct Map map, struct Truck trucks[], struct Shipment shipment, int index);
 
 /**
  * Finds the next available slot in the packages array.

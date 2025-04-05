@@ -1,10 +1,41 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
+#include <ctype.h>
 #include <stdbool.h>
 #include <float.h>
 #include "dataStructs.h"
 
 
+
+bool takeUserInput(struct Shipment* package) {
+	int inputWeight = 0;
+	double inputSize = 0.0;
+	char inputAddress[3 + 1] = "\0";
+
+	int mapRow = 0;
+
+	scanf("%d %lf %3s", &inputWeight, &inputSize, inputAddress);
+	while (getchar() != '\n');
+	if (inputWeight == 0 && inputSize == 0 && inputAddress[0] == 'x') {
+		return false;
+	}
+	package->weight = inputWeight;
+	package->size = inputSize;
+
+	if (isdigit(inputAddress[0]) && isdigit(inputAddress[1])) {
+		mapRow = ((inputAddress[0] - '0') * 10) + inputAddress[1] - '0';
+		package->address.row = mapRow;
+		package->address.col = toupper(inputAddress[2]);
+	}
+	else if (isdigit(inputAddress[0]) && isalpha(inputAddress[1])) { 
+		mapRow = inputAddress[0] - '0';
+		package->address.row = mapRow;
+		package->address.col = toupper(inputAddress[1]);
+	}
+
+	return true;
+
+}
 
 bool checkSpace(struct Truck truck, struct Shipment shipment) {
 	if ((truck.weight + shipment.weight) <= 5000 && (truck.volume + shipment.size) <= 250.0) {
