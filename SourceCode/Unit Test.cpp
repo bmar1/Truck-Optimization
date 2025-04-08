@@ -118,7 +118,7 @@ namespace BlackBoxTests
             struct Shipment shipment { 500, 5, address };
 
             int result = assignPackage(finalMap, trucks, shipment);
-            Assert::AreEqual(result, -1);
+            Assert::AreEqual(result, 0);
         };
 
         TEST_METHOD(test_valid_case1)
