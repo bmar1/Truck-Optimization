@@ -27,7 +27,7 @@ bool takeUserInput(struct Shipment* package) {
 		package->address.row = mapRow;
 		package->address.col = toupper(inputAddress[2]);
 	}
-	else if (isdigit(inputAddress[0]) && isalpha(inputAddress[1])) { 
+	else if (isdigit(inputAddress[0]) && isalpha(inputAddress[1])) {
 		mapRow = inputAddress[0] - '0';
 		package->address.row = mapRow;
 		package->address.col = toupper(inputAddress[1]);
@@ -124,16 +124,16 @@ bool valid(struct Shipment shipment, struct Map map) {
 	default: column = -1;
 	}
 
-	 if (row == -1 || column == -1) {//Set validity to false if address is outside of map bounds
+	if (row == -1 || column == -1) {//Set validity to false if address is outside of map bounds
 		validity = false;
 	}
 	else if (map.squares[row][column] != 1) {//Set validity to false if address on map is not a building
 		validity = false;
-		}
+	}
 	else {
-			validity = true;
-			}
-			return validity;
+		validity = true;
+	}
+	return validity;
 }
 
 int assignPackage(const struct Map map, struct Truck trucks[], struct Shipment shipment) {
@@ -143,7 +143,7 @@ int assignPackage(const struct Map map, struct Truck trucks[], struct Shipment s
 	double minDistance = DBL_MAX;
 	// If at least one truck has room and the shipment is valid, assign it
 
-	if (!validShip(shipment)) {
+	if (!validShip(shipment) || !valid(shipment, map)) {
 		return -1;
 	}
 
@@ -201,9 +201,8 @@ int assignPackage(const struct Map map, struct Truck trucks[], struct Shipment s
 
 struct Route divert(struct Map map, struct Truck trucks[], struct Shipment shipment, int index) {
 
-	struct Route route = { 0, -1, 0};
+	struct Route route = { 0, -1, 0 };
 	if (!valid(shipment, map) || !validShip(shipment)) {
-		printf("SHIPMENT NOT VALID!");
 		return route;
 	}
 	int closestIndex = getClosestPoint((const struct Route*)&trucks[index].truckRoute, shipment.address);
@@ -214,7 +213,6 @@ struct Route divert(struct Map map, struct Truck trucks[], struct Shipment shipm
 	//stores a route to the shortest path in a route
 	struct Route diversionPath = shortestPath(&map, closestPoint, shipment.address);
 	if (diversionPath.numPoints == 0) {
-		printf("DIVERSION PATH IS EMPTY");
 		return route;
 	}
 	printf(", divert ");

@@ -273,7 +273,7 @@ namespace BlackBoxTests
 
               int result = divert(finalMap, trucks, shipment, 0);
            *  Assert::AreEqual(-1, result);};*/
-         
+
 
         TEST_METHOD(test_eqPt)
         {
@@ -648,8 +648,8 @@ namespace WhiteBoxTests {
             Assert::AreEqual(12, result.numPoints);
 
         }
-         
-        
+
+
 
     };
 
@@ -672,7 +672,7 @@ namespace IntegrationTests {
     public:
 
         TEST_METHOD(IT101) {
-            Shipment testPackage = { 50, 2, {2,'Q'}};
+            Shipment testPackage = { 50, 2, {2,'Q'} };
 
             Truck truck = { 3000, 100, green, {} };
 
@@ -686,13 +686,13 @@ namespace IntegrationTests {
 
             Truck truck = { 1000, 50, green, {} };
 
-           
+
             bool result = validShip(testPackage);
             if (result == true) {
                 bool result1 = checkSpace(truck, testPackage);
                 Assert::AreEqual(result, result1);
             }
-            else Assert::AreEqual(result, false); 
+            else Assert::AreEqual(result, false);
         }
 
         TEST_METHOD(IT103) {
@@ -777,7 +777,7 @@ namespace IntegrationTests {
             Truck truck[] = {
             {1000, 50, blueRoute, {}} };
 
-            
+
             int result = assignPackage(finalMap, truck, testPackage);
             Assert::AreEqual(result, 0);
         }
@@ -872,11 +872,164 @@ namespace IntegrationTests {
     };
 }
 
+namespace AcceptanceTests {
+   
+    const struct Map map = populateMap();
+
+    struct Route blueRoute = getBlueRoute();
+    struct Route yellow = getYellowRoute();
+    struct Route green = getGreenRoute();
+
+    const struct Map map1 = addRoute(&map, &blueRoute);
+    const struct Map map2 = addRoute(&map1, &green);
+    const struct Map finalMap = addRoute(&map2, &yellow);
+
+
+    TEST_CLASS(AcceptanceTests) {
+    public:
+
+        TEST_METHOD(AT101) {
+            Shipment testPackage = { 6000, 2, {2,'F'} };
+            
+
+            Truck truck[] = {
+           { 0, 250, blueRoute, {} } ,
+            {0,250, green, {} } ,
+           { 0, 250, yellow, {} } };
+          
+            int result = assignPackage(finalMap, truck, testPackage);
+            Assert::AreEqual(-1, result);
+           
+            
+        }
+
+        TEST_METHOD(AT201) {
+            Shipment testPackage = { 10000, 2, {3,'K'} };
+
+
+            Truck truck[] = {
+           { 0, 250, blueRoute, {} } ,
+            {0,250, green, {} } ,
+           { 0, 250, yellow, {} } };
+
+            int result = assignPackage(finalMap, truck, testPackage);
+            Assert::AreEqual(-1, result);
+
+
+        }
+
+        TEST_METHOD(AT202) {
+            Shipment testPackage = { 25, 2, {8,'K'} };
+
+
+            Truck truck[] = {
+           { 0, 0, blueRoute, {} } ,
+           { 0, 0, yellow, {} } };
+
+            int result = assignPackage(finalMap, truck, testPackage);
+            Assert::AreEqual(0, result);
+
+
+        }
+
+        TEST_METHOD(AT301) {
+            Shipment testPackage = { 30, 3, {8,'K'} };
 
 
 
-/*int main() {
-    return 0;
+            bool result = validShip(testPackage);
+            Assert::AreEqual(false, result);
 
 
-}*/
+        }
+
+        TEST_METHOD(AT401) {
+            Shipment testPackage = { 20, 2, {7,'W'} };
+
+
+            Truck truck[] = {
+           { 0, 0, blueRoute, {} } ,
+            {0,0, green, {} } };
+
+            int result = assignPackage(finalMap, truck, testPackage);
+            Assert::AreEqual(1, result);
+
+
+        }
+
+        TEST_METHOD(AT501) {
+            Shipment testPackage = { 50, 2, {13,'L'} };
+
+
+            Truck truck[] = {
+           { 0, 0, blueRoute, {} } ,
+            {0,0, green, {} } };
+
+            int result = assignPackage(finalMap, truck, testPackage);
+            Assert::AreEqual(0, result);
+
+
+        }
+
+        TEST_METHOD(AT502) {
+            Shipment testPackage = { 50, 2, {8,'S'} };
+
+
+            Truck truck[] = {
+           { 0, 0, blueRoute, {} } ,
+            {0,0, green, {} } };
+
+            int result = assignPackage(finalMap, truck, testPackage);
+            Assert::AreEqual(1, result);
+
+
+        }
+
+        TEST_METHOD(AT503) {
+            Shipment testPackage = { 50, 2, {26, 'U'} };
+
+
+            Truck truck[] = {
+           { 0, 0, blueRoute, {} } ,
+            {0,0, green, {} } };
+
+            int result = assignPackage(finalMap, truck, testPackage);
+            Assert::AreEqual(-1, result);
+
+
+        }
+
+
+        TEST_METHOD(AT601) {
+            Shipment testPackage = { 25, 2, {7,'A'} };
+
+
+            Truck truck[] = {
+           { 0, 0, yellow, {} } };
+
+            int result = assignPackage(finalMap, truck, testPackage);
+            Assert::AreEqual(0, result);
+
+
+        }
+
+        TEST_METHOD(AT701) {
+            Shipment testPackage = { 10, 2, {6,'E'} };
+
+
+            Truck truck[] = {
+           { 0, 0, yellow, {} } };
+
+            int result = assignPackage(finalMap, truck, testPackage);
+            Assert::AreEqual(0, result);
+
+
+        }
+
+    };
+}
+
+
+
+
+ 
