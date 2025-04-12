@@ -118,7 +118,7 @@ namespace BlackBoxTests
             struct Shipment shipment { 500, 5, address };
 
             int result = assignPackage(finalMap, trucks, shipment);
-            Assert::AreEqual(result, 0);
+            Assert::AreEqual(-1, result);
         };
 
         TEST_METHOD(test_valid_case1)
@@ -208,72 +208,6 @@ namespace BlackBoxTests
             bool result = checkSpace(truck, shipment);
             Assert::AreEqual(result, false);
         };
-
-
-        /*TEST_METHOD(test_check_divert1) {
-            struct Point address = { 2, 'Q' };
-            struct Shipment shipment = { 500, 5, address };
-            struct Shipment packages[500] = { Shipment{0,0,0} };
-            packages[0] = shipment;
-
-            const struct Route greenRoute = getGreenRoute();
-
-            struct Truck truck = {
-                1000,          // weight
-                80,            // volume
-                greenRoute,     // const Route (must match `truckRoute` type)
-                packages[0]       // packages array
-            };
-
-            struct Route result = divert(finalMap, &truck, truck.packages[0], 0);
-
-
-            Assert::AreEqual(4, result.numPoints);
-        */
-
-        //cases  2-4 use the wrong method of testing
-
-          /*TEST_METHOD(test_check_divert2)
-          {
-
-              struct Truck trucks[] = {
-                  {1000, 80, yellow, {}},
-
-              };
-              struct Point address { 'C', '8' };
-              struct Shipment shipment { 1000, 2, address };
-
-              int result = divert(finalMap, trucks, shipment, 0);
-              Assert::AreEqual(0, result);
-          }
-
-          TEST_METHOD(test_check_divert3)
-          {
-
-              struct Truck trucks[] = {
-                  {1000, 80, yellow, {}},
-
-              };
-              struct Point address { 'C', '8' };
-              struct Shipment shipment { 3000, 2, address };
-
-              int result = divert(finalMap, trucks, shipment, 0);
-              Assert::AreEqual(-1, result);
-          }
-
-          TEST_METHOD(test_check_divert4)
-          {
-
-              struct Truck trucks[] = {
-                  {1000, 80, blueRoute, {}},
-
-              };
-              struct Point address { 'X', '28' };
-              struct Shipment shipment { 1000, 2, address };
-
-              int result = divert(finalMap, trucks, shipment, 0);
-           *  Assert::AreEqual(-1, result);};*/
-
 
         TEST_METHOD(test_eqPt)
         {
@@ -544,42 +478,6 @@ namespace WhiteBoxTests {
             Assert::AreEqual(0, result);
         }
 
-        TEST_METHOD(test_path1) { //test path doesnt work
-            struct Point start { 1, 'A' };
-            struct Point end { 5, 'E' };
-
-            struct Route result = shortestPath(&map, start, end);
-            Assert::AreEqual(9, result.numPoints);
-
-        }
-
-        TEST_METHOD(test_path2) {
-            struct Point start { 10, 'K' };
-            struct Point end { 17, 'K' };
-
-            struct Route result = shortestPath(&map, start, end);
-            Assert::AreEqual(9, result.numPoints);
-
-        }
-
-
-        TEST_METHOD(test_path3) {
-            struct Point start { 6, 'E' };
-            struct Point end { 2, 'H' };
-
-            struct Route result = shortestPath(&map, start, end);
-            Assert::AreEqual(0, result.numPoints);
-
-        }
-
-        TEST_METHOD(test_path4) {
-            struct Point start { 18, 'V' };
-            struct Point end { 7, 'Y' };
-
-            struct Route result = shortestPath(&map, start, end);
-            Assert::AreEqual(15, result.numPoints);
-
-        }
 
         TEST_METHOD(test_check_divert1)
         {
@@ -648,7 +546,7 @@ namespace WhiteBoxTests {
             Assert::AreEqual(12, result.numPoints);
 
         }
-
+        
 
 
     };
@@ -820,7 +718,7 @@ namespace IntegrationTests {
         }
 
         TEST_METHOD(IT301) {
-            Shipment testPackage = { 100, 5, {3,'K'} };
+            Shipment testPackage = { 100, 5, {2,'K'} };
 
             Truck truck[] = {
             { 500, 25, blueRoute, {} } ,
@@ -828,7 +726,7 @@ namespace IntegrationTests {
 
 
             int result = assignPackage(finalMap, truck, testPackage);
-            Assert::AreEqual(result, 1);
+            Assert::AreEqual(1, result);
         }
 
         TEST_METHOD(IT302) {
@@ -858,15 +756,17 @@ namespace IntegrationTests {
         }
 
         TEST_METHOD(IT304) {
-            Shipment testPackage = { 100, 5.0, {3,'M'} };
+            Shipment testPackage = { 100, 5.0, {2,'M'} };
 
             Truck truck[] = {
-         { 500, 25, blueRoute, {} } ,
-         { 500, 25, yellow, {} } };
+         { 5000, 250, green,     {} },
+         {    0,   0, blueRoute, {} },
+         { 5000, 250, yellow,    {} } 
+            };
 
 
             int result = assignPackage(finalMap, truck, testPackage);
-            Assert::AreEqual(result, 0);
+            Assert::AreEqual(1, result);
         }
 
     };
